@@ -26,12 +26,12 @@ public class TestBase {
     }
 
 
-//    @AfterClass
-//    public void tearDown() {
-//        if (driver != null) {
-//            driver.quit();
-//        }
-//    }
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 
     private void loadConfig() {
         config = new Properties();

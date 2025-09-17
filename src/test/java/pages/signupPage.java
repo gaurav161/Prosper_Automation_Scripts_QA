@@ -16,7 +16,7 @@ public class signupPage {
     private final WebDriver driver;
     private WebDriverWait wait;
 
-    public signupPage(WebDriver driver){
+    public signupPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(20));
         PageFactory.initElements(driver, this);
@@ -37,7 +37,7 @@ public class signupPage {
     private WebElement emailField;
 
     @FindBy(xpath = "//button[@role='combobox']")
-    private  WebElement languageDropdown;
+    private WebElement languageDropdown;
 
     @FindBy(id = "terms_and_condition")
     private WebElement termsCheckbox;
@@ -46,8 +46,8 @@ public class signupPage {
     @FindBy(xpath = "//button[normalize-space()='Continue']")
     private WebElement continueButton;
 
-    public void loginclick(){
-        List<WebElement>buttons = driver.findElements(By.xpath("//button[@id='login-btn-desktop']"));
+    public void loginclick() {
+        List<WebElement> buttons = driver.findElements(By.xpath("//button[@id='login-btn-desktop']"));
         for (WebElement btn : buttons) {
             if (btn.isDisplayed()) {
                 btn.click();
@@ -56,23 +56,24 @@ public class signupPage {
 
         }
     }
-    public void SignUpButton() throws  InterruptedException {
+
+    public void SignUpButton() throws InterruptedException {
         wait.until(ExpectedConditions.elementToBeClickable(signUpButton)).click();
     }
 
-    public void fullName(String setFullName){
+    public void fullName(String setFullName) {
         wait.until(ExpectedConditions.elementToBeClickable(fullNameField)).sendKeys(setFullName);
     }
 
-    public void setMobileNumberField(String setMobileNumber){
+    public void setMobileNumberField(String setMobileNumber) {
         wait.until(ExpectedConditions.elementToBeClickable(mobileNumberField)).sendKeys(setMobileNumber);
     }
 
-    public void setEmailField(String setEmail){
+    public void setEmailField(String setEmail) {
         wait.until(ExpectedConditions.elementToBeClickable(emailField)).sendKeys(setEmail);
     }
 
-    public void setLanguageDropdown(){
+    public void setLanguageDropdown() {
         WebElement hiddenSelect = driver.findElement(By.xpath("//select[@aria-hidden='true']"));
 
         // Use Selenium Select class
@@ -80,24 +81,56 @@ public class signupPage {
         select.selectByVisibleText("English");
 
     }
-    public void setTermsCheckbox(){
+
+    public void setTermsCheckbox() {
 //       wait.until(ExpectedConditions.elementToBeClickable(termsCheckbox)).click();
 
-            WebElement geekmark = driver.findElement(By.cssSelector("label[for='terms_and_condition'] span.geekmark"));
-            wait.until(ExpectedConditions.elementToBeClickable(geekmark)).click();
+        WebElement geekmark = driver.findElement(By.cssSelector("label[for='terms_and_condition'] span.geekmark"));
+        wait.until(ExpectedConditions.elementToBeClickable(geekmark)).click();
 
 
     }
 
-    public void clickContinueButton(){
+    public void clickContinueButton() {
         wait.until(ExpectedConditions.elementToBeClickable(continueButton)).click();
     }
 
+    public void phoneOTP(String setPhoneOTP) throws InterruptedException {
+        List<WebElement> optInputs = driver.findElements(By.xpath("//input[@type='text' and @maxlength='1']"));
+        if (optInputs.size() == 4) {
+            for (int i = 0; i < optInputs.size(); i++) {
+                optInputs.get(i).sendKeys(String.valueOf(setPhoneOTP.charAt(i)));
+                Thread.sleep(300);
+            }
+        } else {
+            throw new IllegalArgumentException("OTP length does not match the number of input fields");
+        }
+
+        Thread.sleep(1000);
+
+        WebElement verifyButton = driver.findElement(By.xpath("//button[normalize-space()='Verify']"));
+        wait.until(ExpectedConditions.elementToBeClickable(verifyButton)).click();
 
 
+    }
 
+    public void emailOTP(String setemailOTP) throws InterruptedException {
+        List<WebElement> optInputs = driver.findElements(By.xpath("//input[@type='text' and @maxlength='1']"));
+        if (optInputs.size() == 4) {
+            for (int i = 0; i < optInputs.size(); i++) {
+                optInputs.get(i).sendKeys(String.valueOf(setemailOTP.charAt(i)));
+                Thread.sleep(300);
+            }
+        } else {
+            throw new IllegalArgumentException("OTP length does not match the number of input fields");
+        }
 
+        Thread.sleep(1000);
 
+        WebElement verifyButton = driver.findElement(By.xpath("//button[normalize-space()='Verify']"));
+        wait.until(ExpectedConditions.elementToBeClickable(verifyButton)).click();
+
+    }
 
 
 }
